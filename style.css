@@ -1,0 +1,95 @@
+:root{
+    --w: 90px;      /* width of one digit */
+    --h: 150px;     /* height of one digit */
+    --th: 16px;     /* thickness of each segment */
+    --gap: 18px;    /* gap between digits */
+    --on: #000;     /* segment color when ON */
+    --off: rgba(0,0,0,0.08); /* segment color when OFF */
+    --bg: #fff;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:40px;
+    background:var(--bg);
+    font-family: system-ui, Arial, sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    min-height:100vh;
+  }
+
+  .board{
+    display:flex;
+    gap:var(--gap);
+    align-items:flex-end;
+    flex-wrap:wrap;
+  }
+
+  /* single digit container */
+  .digit {
+    position: relative;
+    width: var(--w);
+    height: var(--h);
+    /* preserve ratio for segments */
+    -webkit-user-select:none;
+    user-select:none;
+  }
+
+  /* common segment base */
+  .seg {
+    position: absolute;
+    background: var(--off);
+    transition: background .08s;
+    border-radius: 3px;
+  }
+
+  /* horizontal segments: a (top), g (middle), d (bottom) */
+  .seg.a, .seg.g, .seg.d {
+    left: calc(var(--th) / 2);
+    right: calc(var(--th) / 2);
+    height: var(--th);
+  }
+  .seg.a { top: 0; }
+  .seg.g { top: calc(50% - var(--th)/2); }
+  .seg.d { bottom: 0; }
+
+  /* vertical segments: f (top-left), b (top-right), e (bottom-left), c (bottom-right) */
+  .seg.f, .seg.e {
+    left: 0;
+    width: var(--th);
+  }
+  .seg.b, .seg.c {
+    right: 0;
+    width: var(--th);
+  }
+  .seg.f, .seg.b { top: calc(var(--th) / 2); height: calc(50% - var(--th)); }
+  .seg.e, .seg.c { bottom: calc(var(--th) / 2); height: calc(50% - var(--th)); }
+
+  /* turn ON segments by adding .on */
+  .seg.on { background: var(--on); }
+
+  /* helper: show a digit with segments by class names (d0..d9) */
+  /* 0: a b c d e f */
+  .d0 .seg.a,.d0 .seg.b,.d0 .seg.c,.d0 .seg.d,.d0 .seg.e,.d0 .seg.f { background:var(--on); }
+  /* 1: b c */
+  .d1 .seg.b,.d1 .seg.c { background:var(--on); }
+  /* 2: a b g e d */
+  .d2 .seg.a,.d2 .seg.b,.d2 .seg.g,.d2 .seg.e,.d2 .seg.d { background:var(--on); }
+  /* 3: a b g c d */
+  .d3 .seg.a,.d3 .seg.b,.d3 .seg.g,.d3 .seg.c,.d3 .seg.d { background:var(--on); }
+  /* 4: f g b c */
+  .d4 .seg.f,.d4 .seg.g,.d4 .seg.b,.d4 .seg.c { background:var(--on); }
+  /* 5: a f g c d */
+  .d5 .seg.a,.d5 .seg.f,.d5 .seg.g,.d5 .seg.c,.d5 .seg.d { background:var(--on); }
+  /* 6: a f g e c d */
+  .d6 .seg.a,.d6 .seg.f,.d6 .seg.g,.d6 .seg.e,.d6 .seg.c,.d6 .seg.d { background:var(--on); }
+  /* 7: a b c */
+  .d7 .seg.a,.d7 .seg.b,.d7 .seg.c { background:var(--on); }
+  /* 8: all */
+  .d8 .seg.a,.d8 .seg.b,.d8 .seg.c,.d8 .seg.d,.d8 .seg.e,.d8 .seg.f,.d8 .seg.g { background:var(--on); }
+  /* 9: a b c d f g */
+  .d9 .seg.a,.d9 .seg.b,.d9 .seg.c,.d9 .seg.d,.d9 .seg.f,.d9 .seg.g { background:var(--on); }
+
+  /* --- styling for pairs (two-digit numbers) to keep digits close and aligned --- */
+  .pair { display:inline-flex; gap:8px; align-items:flex-end; }
